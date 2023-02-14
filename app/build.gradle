@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.squareup.retrofit2.9.0:adapter-rxjava2:2'
 
     // converter
-    implementation 'com.squareup.retrofit2:converter-gson:latest.version'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     def roomVersion = "2.4.3"
 
