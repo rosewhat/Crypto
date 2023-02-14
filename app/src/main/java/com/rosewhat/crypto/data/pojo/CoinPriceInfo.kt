@@ -1,9 +1,12 @@
 package com.rosewhat.crypto.data.pojo
+import com.rosewhat.crypto.data.api.ApiFactory.BASE_IMAGE_URL
+
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.rosewhat.crypto.ui.utils.convertTimesStartToTime
 
 @Entity(tableName = "full_price_list")
 data class CoinPriceInfo(
@@ -28,7 +31,7 @@ data class CoinPriceInfo(
     val price: Double,
     @SerializedName("LASTUPDATE")
     @Expose
-    val lastUpdate: Integer,
+    val lastUpdate: Int,
     @SerializedName("MEDIAN")
     @Expose
     val median: Double,
@@ -121,16 +124,16 @@ data class CoinPriceInfo(
     val conversionsymbol: String,
     @SerializedName("SUPPLY")
     @Expose
-    val supply: Integer,
+    val supply: Int,
     @SerializedName("MKTCAP")
     @Expose
     val mktcap: Double,
     @SerializedName("MKTCAPPENALTY")
     @Expose
-    val mktcappenalty: Integer,
+    val mktcappenalty: Int,
     @SerializedName("CIRCULATINGSUPPLY")
     @Expose
-    val circulatingsupply: Integer,
+    val circulatingsupply: Int,
     @SerializedName("CIRCULATINGSUPPLYMKTCAP")
     @Expose
     val circulatingsupplymktcap: Double,
@@ -149,4 +152,9 @@ data class CoinPriceInfo(
     @SerializedName("IMAGEURL")
     @Expose
     val imageUrl: String,
-)
+) {
+    fun getFormattedTime(): String = convertTimesStartToTime(lastUpdate.toLong())
+
+    fun getFullImageUrl(): String = BASE_IMAGE_URL + imageUrl
+
+}
