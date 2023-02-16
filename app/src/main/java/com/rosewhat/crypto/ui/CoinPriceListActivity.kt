@@ -1,24 +1,27 @@
 package com.rosewhat.crypto.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.R
-import com.rosewhat.crypto.data.api.ApiFactory
 import com.rosewhat.crypto.data.pojo.CoinPriceInfo
 import com.rosewhat.crypto.ui.adapters.CoinInfoAdapter
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_coin_price_list.*
 
 class CoinPriceListActivity : AppCompatActivity() {
     private lateinit var coinAdapter: CoinInfoAdapter
     private val compositeDisposable = CompositeDisposable()
+    private val viewModel by lazy {
+        ViewModelProvider(this)[CoinViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_price_list)
+        viewModel.loadData()
+        observeViewModel()
         coinAdapter = CoinInfoAdapter(this)
         with(coinAdapter) {
             rvCoinPriceList.adapter = this
@@ -28,25 +31,14 @@ class CoinPriceListActivity : AppCompatActivity() {
                 }
             }
         }
-        val dispose = ApiFactory.apiService.getFullPriceList(fSyms = "BTC,ETH")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d(RESULT_PARSING_POSITIVE, it.toString())
-            }, {
-                Log.d(RESULT_PARSING_ERROR, it.toString())
-            })
-        compositeDisposable.add(dispose)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
-    }
-
-    companion object {
-        private const val RESULT_PARSING_POSITIVE = "TEST_LOADING"
-        private const val RESULT_PARSING_ERROR = "TEST_LOADING_ERROR"
 
     }
+
+    private fun observeViewModel() {
+        viewModel.priceList.observe(this) {
+            Log.d("TEST_DATA", it.toString())
+        }
+    }
+
+
 }
