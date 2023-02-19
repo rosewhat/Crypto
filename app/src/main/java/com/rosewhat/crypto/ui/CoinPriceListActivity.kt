@@ -1,5 +1,6 @@
 package com.rosewhat.crypto.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -20,23 +21,23 @@ class CoinPriceListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_price_list)
-        viewModel.loadData()
-        observeViewModel()
         coinAdapter = CoinInfoAdapter(this)
         with(coinAdapter) {
             rvCoinPriceList.adapter = this
             onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
                 override fun onCoinClick(coinPriceInfo: CoinPriceInfo) {
-                    Log.d("ON_CLICK_INFO", coinPriceInfo.fromSymbol)
+                    startActivity(CoinDetailActivity.newIntent(context = this@CoinPriceListActivity, fromSymbol = coinPriceInfo.fromSymbol))
                 }
             }
         }
+        observeViewModel()
+
 
     }
 
     private fun observeViewModel() {
         viewModel.priceList.observe(this) {
-            Log.d("TEST_DATA", it.toString())
+            coinAdapter.coinInfoList = it
         }
     }
 
