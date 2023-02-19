@@ -30,7 +30,7 @@
             tools:text="BTC / USD" />
 
         <ImageView
-            android:id="@+id/ivLogoCoin"
+            android:id="@+id/ivLogoCoinMain"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"
@@ -61,7 +61,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPrice"
+            app:layout_constraintTop_toBottomOf="@id/tvPrice"
             tools:text="Время последнего обновления: 21:52:33" />
 
 
