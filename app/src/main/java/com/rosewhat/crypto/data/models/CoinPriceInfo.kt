@@ -1,5 +1,5 @@
-package com.rosewhat.crypto.data.pojo
-import com.rosewhat.crypto.data.api.ApiFactory.BASE_IMAGE_URL
+package com.rosewhat.crypto.data.models
+import com.rosewhat.crypto.data.network.ApiFactory.BASE_IMAGE_URL
 
 
 import androidx.room.Entity
