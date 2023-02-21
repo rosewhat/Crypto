@@ -1,4 +1,4 @@
-package com.rosewhat.crypto.data.pojo
+package com.rosewhat.crypto.data.models
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose

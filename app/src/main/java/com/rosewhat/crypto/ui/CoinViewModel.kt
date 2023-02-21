@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.google.gson.Gson
-import com.rosewhat.crypto.data.api.ApiFactory
+import com.rosewhat.crypto.data.network.ApiFactory
 import com.rosewhat.crypto.data.database.AppDatabase
-import com.rosewhat.crypto.data.pojo.CoinPriceInfo
-import com.rosewhat.crypto.data.pojo.CoinPriceInfoRawData
+import com.rosewhat.crypto.data.models.CoinPriceInfo
+import com.rosewhat.crypto.data.models.CoinPriceInfoRawData
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit

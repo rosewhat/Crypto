@@ -1,7 +1,7 @@
-package com.rosewhat.crypto.data.api
+package com.rosewhat.crypto.data.network
 
-import com.rosewhat.crypto.data.pojo.CoinInfoListOfData
-import com.rosewhat.crypto.data.pojo.CoinPriceInfoRawData
+import com.rosewhat.crypto.data.models.CoinInfoListOfData
+import com.rosewhat.crypto.data.models.CoinPriceInfoRawData
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
