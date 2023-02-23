@@ -1,4 +1,4 @@
-package com.rosewhat.crypto.data.models
+package com.rosewhat.crypto.data.network.models
 import com.rosewhat.crypto.data.network.ApiFactory.BASE_IMAGE_URL
 
 
@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 import com.rosewhat.crypto.ui.utils.convertTimesStartToTime
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfo(
+data class CoinInfoDto(
     @SerializedName("TYPE")
     @Expose
     val type: String,

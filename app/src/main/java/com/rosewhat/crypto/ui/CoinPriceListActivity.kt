@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.R
-import com.rosewhat.crypto.data.models.CoinPriceInfo
+import com.rosewhat.crypto.data.network.models.CoinInfoDto
 import com.rosewhat.crypto.ui.adapters.CoinInfoAdapter
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_coin_price_list.*
@@ -23,7 +23,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         with(coinAdapter) {
             rvCoinPriceList.adapter = this
             onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
-                override fun onCoinClick(coinPriceInfo: CoinPriceInfo) {
+                override fun onCoinClick(coinPriceInfo: CoinInfoDto) {
                     startActivity(CoinDetailActivity.newIntent(context = this@CoinPriceListActivity, fromSymbol = coinPriceInfo.fromSymbol))
                 }
             }

@@ -1,7 +1,7 @@
 package com.rosewhat.crypto.data.network
 
-import com.rosewhat.crypto.data.models.CoinInfoListOfData
-import com.rosewhat.crypto.data.models.CoinPriceInfoRawData
+import com.rosewhat.crypto.data.network.models.CoinNameListDto
+import com.rosewhat.crypto.data.network.models.CoinInfoJsonContainerDto
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,18 +9,18 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("top/totalvolfull")
-    fun getTopsCoinInfo(
+   suspend fun getTopsCoinInfo(
         @Query(QEURY_PARAM_API_KEY) apiKey: String = API_KEY,
         @Query(QUERY_PARAM_LIMIT) limit: Int = LIMIT,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ): Single<CoinInfoListOfData>
+    ): CoinNameListDto
 
     @GET("pricemultifull")
-    fun getFullPriceList(
+    suspend fun getFullPriceList(
         @Query(QEURY_PARAM_API_KEY) apiKey: String = API_KEY,
         @Query(QUERY_PARAM_FROM_SYMBOL) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY,
-    ): Single<CoinPriceInfoRawData>
+    ): CoinInfoJsonContainerDto
 
 
     companion object {
