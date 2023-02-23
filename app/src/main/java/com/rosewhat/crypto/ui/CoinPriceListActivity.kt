@@ -4,40 +4,62 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.R
-import com.rosewhat.crypto.data.network.models.CoinInfoDto
+import com.rosewhat.crypto.databinding.ActivityCoinPriceListBinding
 import com.rosewhat.crypto.ui.adapters.CoinInfoAdapter
-import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_coin_price_list.*
 
 class CoinPriceListActivity : AppCompatActivity() {
+
+    private val binding by lazy {
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
+    }
     private lateinit var coinAdapter: CoinInfoAdapter
-    private val compositeDisposable = CompositeDisposable()
     private val viewModel by lazy {
         ViewModelProvider(this)[CoinViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_price_list)
+        setContentView(binding.root)
         coinAdapter = CoinInfoAdapter(this)
         with(coinAdapter) {
-            rvCoinPriceList.adapter = this
-            onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
-                override fun onCoinClick(coinPriceInfo: CoinInfoDto) {
-                    startActivity(CoinDetailActivity.newIntent(context = this@CoinPriceListActivity, fromSymbol = coinPriceInfo.fromSymbol))
+            binding.rvCoinPriceList.adapter = this
+            binding.rvCoinPriceList.itemAnimator = null
+
+            onInfoItemCoinClickListener = {
+                if (isOnePaneMode()) {
+                    launchDetailActivity(it.fromSymbol)
+                } else {
+                    launchDetailFragment(it.fromSymbol)
                 }
             }
         }
         observeViewModel()
 
-
     }
 
+    private fun isOnePaneMode() = binding.fragmentContainerLandscape == null
+
     private fun observeViewModel() {
-        viewModel.priceList.observe(this) {
-            coinAdapter.coinInfoList = it
+        viewModel.coinInfoList.observe(this) {
+            coinAdapter.submitList(it)
         }
     }
 
+    private fun launchDetailActivity(fromSymbol: String) {
+        startActivity(
+            CoinDetailActivity.newIntent(
+                context = this@CoinPriceListActivity,
+                fromSymbol = fromSymbol
+            )
+        )
+    }
+
+    private fun launchDetailFragment(fronSymbol: String) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fronSymbol))
+            .addToBackStack(null)
+            .commit()
+    }
 
 }
