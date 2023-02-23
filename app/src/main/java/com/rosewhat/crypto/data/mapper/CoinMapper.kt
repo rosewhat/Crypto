@@ -2,12 +2,10 @@ package com.rosewhat.crypto.data.mapper
 
 import com.google.gson.Gson
 import com.rosewhat.crypto.data.database.CoinInfoDbModel
-import com.rosewhat.crypto.data.network.ApiFactory.BASE_IMAGE_URL
 import com.rosewhat.crypto.data.network.models.CoinInfoDto
 import com.rosewhat.crypto.data.network.models.CoinInfoJsonContainerDto
 import com.rosewhat.crypto.data.network.models.CoinNameListDto
 import com.rosewhat.crypto.domain.model.CoinInfo
-import java.util.*
 
 class CoinMapper {
 
@@ -42,12 +40,12 @@ class CoinMapper {
         return result
     }
 
-    fun mapNameListToString (namesListDto: CoinNameListDto) : String {
+    fun mapNameListToString(namesListDto: CoinNameListDto): String {
         return namesListDto.names.map { it.coinName.name }.joinToString(",")
 
     }
 
-    fun mapDbModelToEntity(dmModel: CoinInfoDbModel) =  CoinInfo(
+    fun mapDbModelToEntity(dmModel: CoinInfoDbModel) = CoinInfo(
         fromSymbol = dmModel.fromSymbol,
         toSymbol = dmModel.toSymbol,
         price = dmModel.price,
@@ -55,9 +53,12 @@ class CoinMapper {
         highday = dmModel.highday,
         lowday = dmModel.lowday,
         lastMarket = dmModel.lastMarket,
-        imageUrl = BASE_IMAGE_URL + dmModel.imageUrl
+        imageUrl = dmModel.imageUrl
     )
 
+    companion object {
+        private const val BASE_IMAGE_URL = "https://cryptocompare.com"
+    }
 
 }
 

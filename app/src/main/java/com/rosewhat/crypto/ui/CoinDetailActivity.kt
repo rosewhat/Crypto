@@ -3,44 +3,33 @@ package com.rosewhat.crypto.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.R
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_coin_detail.*
-import kotlinx.android.synthetic.main.item_coin_info.*
-import kotlinx.android.synthetic.main.item_coin_info.tvPrice
+import com.rosewhat.crypto.databinding.ActivityCoinDetailBinding
 
 class CoinDetailActivity : AppCompatActivity() {
 
-
-    private val viewModel by lazy {
-        ViewModelProvider(this)[CoinViewModel::class.java]
+    private val binding by lazy {
+        ActivityCoinDetailBinding.inflate(layoutInflater)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_detail)
+        setContentView(binding.root)
 
-
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: "null"
-        viewModel.getDetailInfo(fromSymbol).observe(this) {
-            tvPrice.text = it.price.toString()
-            tvMinPrice.text = it.lowday.toString()
-            tvMaxPrice.text = it.highday.toString()
-            tvLastMarket.text = it.lastMarket
-            tvFromSymbol.text = it.fromSymbol
-            tvToSymbol.text = it.toSymbol
-            Picasso.get().load(it.getFullImageUrl()).into(ivLogoCoin)
+        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+                .commit()
         }
-
-
     }
 
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fsym"
+        private const val EMPTY_SYMBOL = ""
 
         fun newIntent(context: Context, fromSymbol: String): Intent {
             val intent = Intent(context, CoinDetailActivity::class.java)
