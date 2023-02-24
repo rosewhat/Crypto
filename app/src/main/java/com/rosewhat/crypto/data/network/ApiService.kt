@@ -2,7 +2,6 @@ package com.rosewhat.crypto.data.network
 
 import com.rosewhat.crypto.data.network.models.CoinNameListDto
 import com.rosewhat.crypto.data.network.models.CoinInfoJsonContainerDto
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
