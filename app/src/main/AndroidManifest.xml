@@ -8,6 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/bitcoin"
         android:label="@string/app_name"
+        android:name=".ui.CoinApp"
         android:roundIcon="@mipmap/bitcoin_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Crypto">

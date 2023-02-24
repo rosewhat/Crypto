@@ -6,8 +6,9 @@ import com.rosewhat.crypto.data.network.models.CoinInfoDto
 import com.rosewhat.crypto.data.network.models.CoinInfoJsonContainerDto
 import com.rosewhat.crypto.data.network.models.CoinNameListDto
 import com.rosewhat.crypto.domain.model.CoinInfo
+import javax.inject.Inject
 
-class CoinMapper {
+class CoinMapper @Inject constructor(   ) {
 
     fun mapDtoToDbModel(dto: CoinInfoDto) = CoinInfoDbModel(
         fromSymbol = dto.fromSymbol,

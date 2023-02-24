@@ -6,20 +6,38 @@ import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.R
 import com.rosewhat.crypto.databinding.ActivityCoinPriceListBinding
 import com.rosewhat.crypto.ui.adapters.CoinInfoAdapter
+import com.rosewhat.crypto.ui.viewModel.CoinViewModel
+import com.rosewhat.crypto.ui.viewModel.ViewModelFactory
+import javax.inject.Inject
 
 class CoinPriceListActivity : AppCompatActivity() {
+
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val binding by lazy {
         ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
-    private lateinit var coinAdapter: CoinInfoAdapter
+
     private val viewModel by lazy {
-        ViewModelProvider(this)[CoinViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
     }
 
+    private val component by lazy {
+        (application as CoinApp).component
+    }
+
+
+
+    private lateinit var coinAdapter: CoinInfoAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         coinAdapter = CoinInfoAdapter(this)
         with(coinAdapter) {
             binding.rvCoinPriceList.adapter = this
