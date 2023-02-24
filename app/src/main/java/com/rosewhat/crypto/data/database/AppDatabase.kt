@@ -1,6 +1,5 @@
 package com.rosewhat.crypto.data.database
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -8,7 +7,6 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [CoinInfoDbModel::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
 
     companion object {
         private var INSTANCE: AppDatabase? = null

@@ -1,6 +1,7 @@
 package com.rosewhat.crypto.ui
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,19 +9,34 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.rosewhat.crypto.databinding.FragmentCoinDetailBinding
+import com.rosewhat.crypto.ui.viewModel.CoinViewModel
+import com.rosewhat.crypto.ui.viewModel.ViewModelFactory
 import com.squareup.picasso.Picasso
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
 
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding: FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding is null")
 
     val viewModel by lazy {
-        ViewModelProvider(this)[CoinViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
     }
 
+    private val component by lazy {
+        (requireActivity().application as CoinApp).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
