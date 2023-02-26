@@ -1,24 +1,21 @@
 package com.rosewhat.crypto.data.workers
 
-import android.app.Application
-import androidx.work.CoroutineWorker
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkerParameters
-import com.rosewhat.crypto.data.database.AppDatabase
+import android.content.Context
+import androidx.work.*
+import com.rosewhat.crypto.data.database.CoinInfoDao
 import com.rosewhat.crypto.data.mapper.CoinMapper
-import com.rosewhat.crypto.data.network.ApiFactory
+import com.rosewhat.crypto.data.network.ApiService
+
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class RefreshWorkerData(
-    application: Application,
-    workerParameters: WorkerParameters
-) : CoroutineWorker(application, workerParameters) {
-    private val coinInfoDao = AppDatabase.getInstance(application).coinPriceInfoDao()
-    private val apiService = ApiFactory.apiService
-
-    private val mapper = CoinMapper()
-
+class RefreshWorkerData (
+    context: Context,
+    workerParameters: WorkerParameters,
+    private val mapper: CoinMapper,
+    private val coinInfoDao: CoinInfoDao,
+    private val apiService: ApiService
+) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
         while (true) {
@@ -41,6 +38,19 @@ class RefreshWorkerData(
 
         fun makeRequest() : OneTimeWorkRequest {
             return OneTimeWorkRequestBuilder<RefreshWorkerData>().build()
+        }
+    }
+
+    class Factory @Inject constructor(
+        private val mapper: CoinMapper,
+        private val coinInfoDao: CoinInfoDao,
+        private val apiService: ApiService
+    ) : ChildWorkerFactory {
+        override fun create(
+            context: Context,
+            workerParameters: WorkerParameters
+        ): ListenableWorker {
+            return RefreshWorkerData(context, workerParameters, mapper, coinInfoDao, apiService)
         }
     }
 }
